@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        #app {
+            border: 1px solid black;
+        }
+        .child {
+            border: 1px solid yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        这是父亲组件
+        <div>
+            {{$count}}
+            <left-child 
+            />
+            <right-child :count="count" />
+        </div>
+    </div>
+    <script>
+        Vue.component('left-child', {
+            // props: ['count'],
+            methods: {
+                addCount() {
+                    console.log('--------')
+                    Vue.prototype.$count++
+                    console.log(vm)
+                    vm.$forceUpdate()
+                    // this.$emit('increament-count')
+                },
+                subCount() {
+                    Vue.prototype.count--
+                    // this.$emit('decreament-count')
+                }
+            },
+            template: `
+                <div class="child">
+                    这是子结点 {{count}}
+                    <button @click="addCount">+</button>
+                    <button @click="subCount">-</button>
+                </div>
+            `
+        })
+        Vue.component('right-child', {
+            props: ['count'],
+            template: `<div>{{count}}</div>`
+        })
+
+        // Vue.prototype.$count = 0
+        // window.$content2 = ''
+        var vm = new Vue({
+            el: '#app',
+            // data: {
+            //     count: 0
+            // },
+            // methods: {
+            //     increatMentCount() {
+            //         this.count++
+            //     },
+            //     decreamentCount() {
+            //         this.count--
+            //     }
+            // }
+        })
+    </script>
+</body>
+</html>

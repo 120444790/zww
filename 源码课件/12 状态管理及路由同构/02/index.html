@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuex/dist/vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        这是父亲组件
+        <div>
+            {{$store.state.count}}
+            <left-child />
+        </div>
+    </div>
+    <script>
+
+        // function sleep(time) {
+        //     return new Promise(resolve => setTimeout(resolve, time))
+        // }
+
+        // function run({mutations: {addCount}}) {
+        //     console.log(1)
+        //     addCount()
+        //     console.log(2)
+        // }
+
+        const store = new Vuex.Store({
+            state: {
+                count: 0
+            },
+            mutations: {
+                addCount(state, payload) {
+                    // setTimeout(function() {
+                    state.count++
+                    // }, 1000)
+                },
+                subCount(state, payload) {
+                    state.count--
+                }
+            },
+            actions: {
+                fetchData(context) {
+                    setTimeout(function() {
+                        context.commit('addCount')
+                    }, 1000)
+                }
+            }
+        })
+        Vue.component('left-child', {
+            template: `
+                <div class="child">
+                    这是子结点 {{$store.state.count}}
+                    <button @click="$store.commit('addCount')">+</button>
+                    <button @click="$store.commit('subCount')">-</button>
+                </div>
+            `
+        })
+        new Vue({
+            el: '#app',
+            store,
+            mounted() {
+                // this.$store.dispatch('fetchData')
+            }
+        })
+    </script>
+</body>
+</html>

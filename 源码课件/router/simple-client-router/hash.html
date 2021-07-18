@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <a href="/hash.html#home">home</a>
+  <a href="/hash.html#about">about</a>
+  <div id="app"></div>
+  <script>
+    const $app = document.getElementById('app')
+    const map = {
+      home: function() {
+        $app.innerHTML = 'home'
+      },
+      about: function() {
+        $app.innerHTML = 'about'
+      }
+    }
+
+    window.onhashchange = function() {
+      const hash = window.location.hash.replace('#', '')
+      const renderFunc = map[hash]
+      renderFunc()
+    }
+  </script>
+</body>
+</html>
